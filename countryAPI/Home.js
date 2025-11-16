@@ -8,14 +8,12 @@ import { useState } from "react";
 export default function Home() {
   const [query, setQuery] = useState("");
   return (
-    <>
-      <main>
-        <div className="search-filter-container">
-          <SearchBar setQuery={setQuery} />
-          <SelectMenu />
-        </div>
-      </main>
-      <CountryList query={query} />
-    </>
+   <main>
+      <div className="search-filter-container">
+        <SearchBar setQuery={setQuery} />
+        <SelectMenu />
+      </div>
+      {query === 'unmount' ? '' : <CountryList query={query} />}
+    </main>
   );
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 // import countriesData from "../countriesData";
 import CountryCard from "./CountryCard";
 
+
 export default function CountryList({ query }) {
   const [countriesData, setCountriesData] = useState([]);
 
@@ -23,12 +24,13 @@ export default function CountryList({ query }) {
 
   return (
     <>
+  
       <div className="countries-container">
         {countriesData
           .filter((country) =>
             country.name.common.toLowerCase().includes(query),
           )
-          .map((country, key) => {
+          .map((country) => {
             return (
               <CountryCard
                 key={country.name.common}

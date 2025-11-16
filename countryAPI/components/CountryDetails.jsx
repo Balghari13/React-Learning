@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './countryDetails.css'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 
 export default function CountryDetails() { 
@@ -17,7 +17,7 @@ export default function CountryDetails() {
     .then(([data])=>
       {console.log(data)
         setCountryData({
-          name: data.name.common,
+           name: data.name.common,
           nativeName : Object.values(data.name.nativeName)[0].common,
           population: data.population,
           region: data.region,
@@ -26,14 +26,33 @@ export default function CountryDetails() {
           flag: data.flags.svg,
           tld: data.tld,
          language: Object.values(data.languages).join(', '),
-         currency: Object.values(data.currencies).map((currency)=>currency.name).join(', ')
+         currency: Object.values(data.currencies).map((currency)=>currency.name).join(', '),
+         borders: []
+        })
+        // data.borders.map((border)=>{
+        //   fetch(`https://restcountries.com/v3.1/alpha/${border}`)
+                
+        //   .then((res)=>res.json())
+        //   .then(([borderCountry])=> {
+        //       setCountryData((prevState)=> ({...prevState, borders: [...prevState.borders, borderCountry.name.common]}))
+        //   })
+        // })
+        if(!data.borders){
+          data.borders = []
+        }
+        Promise.all(data.borders.map((border)=>{
+          return fetch(`https://restcountries.com/v3.1/alpha/${border}`)
+          .then((res)=>res.json())
+          .then(([borderCountry])=> borderCountry.name.common)
+        })).then((borders)=>{
+          setCountryData((prevState)=> ({...prevState,borders}))
         })
       }
     ).catch((err)=>{
       setNotFound(true)
       
     })
-  },[])
+  },[countryName])
   if(notFound){
     return <div>Country not found</div>
   }
@@ -87,6 +106,9 @@ export default function CountryDetails() {
             </div>
             <div className="border-countries">
               <b>Border Countries: </b>&nbsp;
+              {
+              countryData.borders.map((border,key)=> <Link key={border} to={`/${border}`}>{border}</Link>)
+            }
             </div>
           </div>
         </div>
