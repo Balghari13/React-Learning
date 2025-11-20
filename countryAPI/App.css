@@ -178,6 +178,9 @@ a {
     width: 60%;
 }
 
+
+
+
 @media(max-width: 768px) {
     .countries-container {
         justify-content: center;

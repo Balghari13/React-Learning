@@ -35,7 +35,7 @@ export default function CountryList({ query }) {
         
         {countriesData
           .filter((country) =>
-            country.name.common.toLowerCase().includes(query),
+            country.name.common.toLowerCase().includes(query) || country.region.toLowerCase().includes(query),
           )
           .map((country) => {
             return (

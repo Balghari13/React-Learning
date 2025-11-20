@@ -3,6 +3,7 @@ import './countryDetails.css'
 import { Link, useOutletContext, useParams } from 'react-router-dom'
 import { ThemeContext } from '../contexts/ThemeContext'
 import { useTheme } from '../hooks/useTheme'
+import CountryDetailsShimmerEffect from './CountryDetailsShimmerEffect'
 
 export default function CountryDetails() { 
 //  const countryName = new URLSearchParams(location.search).get('name')
@@ -67,15 +68,15 @@ export default function CountryDetails() {
     </main>
   )
   }
-  return countryData===null ? ('loading...') 
-  : (
+  return (
     
        <main className={`${isDark?'dark':''}`}>
       <div className="country-details-container">
         <span className="back-button" onClick={()=>history.back()}>
           <i className="fa-solid fa-arrow-left"></i>&nbsp; Back
         </span>
-        <div className="country-details">
+
+         {countryData===null ? <CountryDetailsShimmerEffect/> : <div className="country-details">
           <img src={countryData.flag} alt={`${countryData.name} flag`} />
           <div className="details-text-container">
             <h1>{countryData.name}</h1>
@@ -122,7 +123,7 @@ export default function CountryDetails() {
             }
             </div>
           </div>
-        </div>
+        </div>} 
       </div>
     </main>
     

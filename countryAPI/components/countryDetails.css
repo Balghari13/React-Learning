@@ -50,6 +50,29 @@
     border-radius: 4px;
     font-size: 14px;
 }
+.shimmer .flag {
+  width: 40%;
+  height: 240px;
+  background-color: rgb(179, 178, 178);
+  border-radius: 4px;
+}
+.shimmer .title {
+  height: 36px;
+  background-color: rgb(179, 178, 178);
+  border-radius: 4px;
+}
+.country-details.shimmer p {
+  height: 22px;
+  background-color: rgb(179, 178, 178);;
+  border-radius: 2px;
+}
+.country-details.shimmer p:last-child {
+  width: 50%;
+}
+
+.details-text-container {
+  flex-grow: 1;
+}
 
 @media(max-width: 940px) {
     .country-details {
@@ -67,5 +90,9 @@
         width: 100%;
         max-width: 400px;
     }
-
+ .shimmer .flag, .details-text-container {
+    width: 100%;
+    max-width: 400px;
+  }
+  
 }
