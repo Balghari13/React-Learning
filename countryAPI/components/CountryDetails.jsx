@@ -4,7 +4,6 @@ import { Link, useOutletContext, useParams } from 'react-router-dom'
 import { ThemeContext } from '../contexts/ThemeContext'
 import { useTheme } from '../hooks/useTheme'
 
-
 export default function CountryDetails() { 
 //  const countryName = new URLSearchParams(location.search).get('name')
  const params = useParams()
@@ -23,17 +22,19 @@ export default function CountryDetails() {
     .then(([data])=>
       {console.log(data)
         setCountryData({
-           name: data.name.common,
-          nativeName : Object.values(data.name.nativeName)[0].common,
-          population: data.population,
-          region: data.region,
-          subregion: data.subregion,
-          capital: data.capital[0],
-          flag: data.flags.svg,
-          tld: data.tld,
-         language: Object.values(data.languages).join(', '),
-         currency: Object.values(data.currencies).map((currency)=>currency.name).join(', '),
-         borders: []
+            name: data.name.common || data.name,
+      nativeName: Object.values(data.name.nativeName || {})[0]?.common,
+      population: data.population,
+      region: data.region,
+      subregion: data.subregion,
+      capital: data.capital,
+      flag: data.flags.svg,
+      tld: data.tld,
+      languages: Object.values(data.languages || {}).join(', '),
+      currencies: Object.values(data.currencies || {})
+        .map((currency) => currency.name)
+        .join(', '),
+      borders: [],
         })
         // data.borders.map((border)=>{
         //   fetch(`https://restcountries.com/v3.1/alpha/${border}`)
@@ -60,7 +61,11 @@ export default function CountryDetails() {
     })
   },[countryName])
   if(notFound){
-    return <div>Country not found</div>
+    return (
+      <main className={`${isDark?'dark':''}`}>
+    <div>Country not found</div>
+    </main>
+  )
   }
   return countryData===null ? ('loading...') 
   : (
@@ -76,7 +81,7 @@ export default function CountryDetails() {
             <h1>{countryData.name}</h1>
             <div className="details-text">
               <p>
-                <b>Native Name: {countryData.nativeName}</b>
+                <b>Native Name: {countryData.nativeName || countryData.name}</b>
                 <span className="native-name"></span>
               </p>
               <p>
@@ -94,7 +99,7 @@ export default function CountryDetails() {
                 <span className="sub-region"></span>
               </p>
               <p>
-                <b>Capital: {countryData.capital}</b>
+                 <b>Capital: {countryData.capital?.join(', ')}</b>
                 <span className="capital"></span>
               </p>
               <p>

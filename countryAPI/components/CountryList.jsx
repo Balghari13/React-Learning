@@ -24,7 +24,7 @@ export default function CountryList({ query }) {
 //     }
   }, []);
 
-  if(countriesData.length===0){
+  if(!countriesData.length){
   return <ShimmerEfftect/>
   }
 
