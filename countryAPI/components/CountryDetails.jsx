@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './countryDetails.css'
 import { Link, useOutletContext, useParams } from 'react-router-dom'
+import { ThemeContext } from '../contexts/ThemeContext'
 
 
 export default function CountryDetails() { 
@@ -9,7 +10,8 @@ export default function CountryDetails() {
   const countryName = params.country
   const[countryData, setCountryData] = useState(null)
   const[notFound, setNotFound] = useState(false)
-  const[isDark] = useOutletContext()
+  //const[isDark] = useOutletContext()
+  const[isDark] = useContext(ThemeContext)
   //console.log(countryName);
 
   useEffect(()=>{

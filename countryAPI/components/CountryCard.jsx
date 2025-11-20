@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 export default function CountryCard({name,flag,population,region,capital}) {
-console.log(flag);
+// console.log(flag);
 
    return(
     <Link className="country-card" to={`${name}`}>
