@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import './countryDetails.css'
 import { Link, useOutletContext, useParams } from 'react-router-dom'
 import { ThemeContext } from '../contexts/ThemeContext'
+import { useTheme } from '../hooks/useTheme'
 
 
 export default function CountryDetails() { 
@@ -11,9 +12,11 @@ export default function CountryDetails() {
   const[countryData, setCountryData] = useState(null)
   const[notFound, setNotFound] = useState(false)
   //const[isDark] = useOutletContext()
-  const[isDark] = useContext(ThemeContext)
   //console.log(countryName);
+  // const[isDark] = useContext(ThemeContext)
+  const[isDark] = useTheme()
 
+  
   useEffect(()=>{
     fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
     .then((res)=>res.json())
