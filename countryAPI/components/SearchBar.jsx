@@ -1,5 +1,5 @@
 import React from 'react'
-import CountryList from './CountryList.jsx'
+// import CountryList from './CountryList.jsx'
 export default function SearchBar({setQuery}) {
   return (
     <>
@@ -8,7 +8,7 @@ export default function SearchBar({setQuery}) {
       <input onChange={(e)=>setQuery(e.target.value.toLowerCase())} type="text" placeholder="Search for a country..." />
     </div>
     
-    <CountryList/>
+    {/* <CountryList/> */}
 </>
   )
 }

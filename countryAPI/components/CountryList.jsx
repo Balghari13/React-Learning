@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 // import countriesData from "../countriesData";
 import CountryCard from "./CountryCard";
+import ShimmerEfftect from "./ShimmerEfftect";
+
 
 
 export default function CountryList({ query }) {
@@ -22,10 +24,15 @@ export default function CountryList({ query }) {
 //     }
   }, []);
 
+  if(countriesData.length===0){
+  return <ShimmerEfftect/>
+  }
+
   return (
     <>
-  
-      <div className="countries-container">
+ 
+      { <div className="countries-container">
+        
         {countriesData
           .filter((country) =>
             country.name.common.toLowerCase().includes(query),
@@ -41,8 +48,8 @@ export default function CountryList({ query }) {
                 capital={country.capital}
               />
             );
-          })}
-      </div>
+          })} 
+      </div>}
     </>
   );
 }
