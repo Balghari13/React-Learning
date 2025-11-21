@@ -1,23 +1,22 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
 import { ExpenseForm } from './components/ExpenseForm'
 import { TableExpense } from './components/ExpenseTable'
+import expenseData from './components/expenseData'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [expenses, setExpense] = useState(expenseData)
 
+
+  
   return (
     <main>
      <h1>Track Your Expense</h1>
     <div className="expense-tracker">
-        <ExpenseForm/>
-        <TableExpense/>
-        <div className="context-menu">
-            <div>Edit</div>
-            <div>Delete</div>
-        </div>
+        <ExpenseForm />
+        <TableExpense expenses = {expenses}/>
+        
       </div>
     </main>
   )
