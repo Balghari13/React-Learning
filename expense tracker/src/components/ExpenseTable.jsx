@@ -1,12 +1,13 @@
 import React from 'react'
 
 export const TableExpense = ({expenses}) => {
-  
+ 
   
   return (
     
     
    <table className="expense-table">
+    
     
           <thead>
             <tr>
@@ -66,7 +67,8 @@ export const TableExpense = ({expenses}) => {
             <tr>
               <th>Total</th>
               <th></th>
-              <th>₹8100</th>
+              <th>Rs.{expenses.reduce((acc,item)=>acc+ Number(item.amount), 0)
+              }</th>
             </tr>
           </tbody>
         </table>
