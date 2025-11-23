@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useRef } from 'react'
 
 export const ExpenseForm = ({setExpenses}) => {
 
@@ -6,10 +7,14 @@ export const ExpenseForm = ({setExpenses}) => {
   // const [category, setCategory] = useState('')
   // const [amount, setAmount] = useState('')
 
-  //making one state
+  //making one state; if use useRef() than we don't need this state also
   const [expense, setExpense] = useState({
     title : '', category: '', amount: ''
   })
+
+  // const titleRef= useRef();
+  // const categoryRef= useRef();
+  // const amountRef= useRef();
   
 const handleSubmit = (e)=>{
   e.preventDefault();
@@ -17,14 +22,25 @@ const handleSubmit = (e)=>{
   setExpense({
     title : '', category: '', amount: ''
   })
+
+  //using useRef hook 
+//   const data = {title: titleRef.current.value, category:categoryRef.current.value, amount: amountRef.current.value, id:crypto.randomUUID()}
+
+//   setExpenses((preState)=> [...preState, data])
+// e.target.reset()
+
+// when use states 
 //  const expense = {title, category,amount, id:crypto.randomUUID()}
 //  setExpenses((preState)=> [...preState, expense])
 //   setTitle('');
 //   setCategory('');
 //   setAmount('');
-   
-}
   
+}
+   useEffect(()=>{
+    console.log('hii');
+    
+   })
 
   //Javascript method
   // const handleSubmit =(e)=>{
@@ -49,6 +65,7 @@ const handleSubmit = (e)=>{
             <input id="title" name='title' 
             // value={title} onChange={(e)=>setTitle(e.target.value)}
             value={expense.title} onChange={(e)=>setExpense(preState=> ({...preState, title: e.target.value}))}
+              // ref={titleRef}
             />
           </div>
           <div className="input-container">
@@ -56,6 +73,7 @@ const handleSubmit = (e)=>{
             <select id='category' name='category'
             //  value={category} onChange={(e)=> setCategory(e.target.value)}
 value={expense.category} onChange={(e)=> setExpense(preState=> ({...preState, category:e.target.value}))}
+// ref={categoryRef}
              >
                   <option value="" hidden>Select Category</option>
                   <option value="grocery">Grocery</option>
@@ -70,6 +88,7 @@ value={expense.category} onChange={(e)=> setExpense(preState=> ({...preState, ca
             <input id="amount" name='amount'
             //  value={amount} onChange={(e)=>setAmount(e.target.value)}
             value={expense.amount} onChange={(e)=> setExpense(preState=>({...preState, amount:e.target.value}))}
+            // ref={amountRef}
             />
           </div>
           <button className="add-btn">Add</button>
