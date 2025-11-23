@@ -57,7 +57,7 @@ export const TableExpense = ({expenses}) => {
              <tr key={el.id}>
               <td>{el.title}</td>
               <td>{el.category}</td>
-              <td>{el.amount}</td>
+              <td>Rs.{el.amount}</td>
             </tr>
               
             ))

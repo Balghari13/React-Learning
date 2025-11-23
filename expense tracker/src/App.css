@@ -85,6 +85,10 @@ main {
     height: 28px;
     font-family: inherit;
 }
+.input-container select{
+     height: 28px;
+    font: inherit;
+}
 
 .add-btn {
     width: 100%;
