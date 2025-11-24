@@ -15,9 +15,30 @@ export const ExpenseForm = ({setExpenses}) => {
   // const titleRef= useRef();
   // const categoryRef= useRef();
   // const amountRef= useRef();
+
+ const [errors, setErrors] = useState({});
+
+ function validate(formData){
+  const errorData = {}
+  if(!formData.title){
+    errorData.title = 'Title is required'
+  }
+  if(!formData.category){
+    errorData.category = 'Category is required'
+  }
+  if(!formData.amount){
+    errorData.amount = 'Amount is required'
+  }
+  setErrors(errorData)
+  return errorData
+ }
+  
   
 const handleSubmit = (e)=>{
   e.preventDefault();
+const validateResult = validate(expense);
+if(Object.keys(validateResult).length) return
+  
   setExpenses((preState)=> [...preState, {...expense, id: crypto.randomUUID()}])
   setExpense({
     title : '', category: '', amount: ''
@@ -37,10 +58,7 @@ const handleSubmit = (e)=>{
 //   setAmount('');
   
 }
-   useEffect(()=>{
-    console.log('hii');
-    
-   })
+  
 
   //Javascript method
   // const handleSubmit =(e)=>{
@@ -58,21 +76,36 @@ const handleSubmit = (e)=>{
 // return data;
 //   }
 
+function handleChange(e){
+ 
+  
+  const {name, value} = e.target
+     setExpense(preState=> ({...preState, [name]: value}))
+     setErrors({})
+  }
   return (
     <form className="expense-form" onSubmit={handleSubmit}>
           <div className="input-container">
             <label htmlFor="title">Title</label>
             <input id="title" name='title' 
             // value={title} onChange={(e)=>setTitle(e.target.value)}
-            value={expense.title} onChange={(e)=>setExpense(preState=> ({...preState, title: e.target.value}))}
+            value={expense.title} 
+            // onChange={(e)=>setExpense(preState=> ({...preState, title: e.target.value}))  }
+            onChange={handleChange}
               // ref={titleRef}
             />
+          <p className='error'>{errors.title}</p>
           </div>
           <div className="input-container">
             <label htmlFor="category">Category</label>
             <select id='category' name='category'
             //  value={category} onChange={(e)=> setCategory(e.target.value)}
-value={expense.category} onChange={(e)=> setExpense(preState=> ({...preState, category:e.target.value}))}
+value={expense.category}
+ onChange={
+  // (e)=> setExpense(preState=> ({...preState, category:e.target.value}))
+  handleChange
+}
+
 // ref={categoryRef}
              >
                   <option value="" hidden>Select Category</option>
@@ -82,14 +115,20 @@ value={expense.category} onChange={(e)=> setExpense(preState=> ({...preState, ca
                   <option value="education">Education</option>
                   <option value="medicine">Medicine</option>
                 </select>
+<p className='error'>{errors.category}</p>
           </div>
           <div className="input-container">
             <label htmlFor="amount">Amount</label>
             <input id="amount" name='amount'
             //  value={amount} onChange={(e)=>setAmount(e.target.value)}
-            value={expense.amount} onChange={(e)=> setExpense(preState=>({...preState, amount:e.target.value}))}
+            value={expense.amount} onChange={
+              // (e)=> setExpense(preState=>({...preState, amount:e.target.value}))
+              handleChange
+            }
+            
             // ref={amountRef}
             />
+            <p className='error'>{errors.amount}</p>
           </div>
           <button className="add-btn">Add</button>
         </form>
