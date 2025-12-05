@@ -7,20 +7,30 @@ import expenseData from './components/expenseData'
 import { useLocalStorage } from './hooks/useLocalStorage'
 
 function App() {
-  const [expenses, setExpenses] = useState(expenseData)
- const [expense, setExpense] = useState({
+  //const [expenses, setExpenses] = useState(expenseData)
+  const [expenses, setExpenses] = useLocalStorage('expenses',expenseData)
+  console.log(expenseData);
+  
+//  const [expense, setExpense] = useState({
+//     title: "",
+//     category: "",
+//     amount: "",
+//   });
+
+//   const[isEditing, setIsEditing] = useState('')
+
+const [expense, setExpense] = useLocalStorage('expense',{
     title: "",
     category: "",
     amount: "",
   });
 
-  const[isEditing, setIsEditing] = useState('')
-const[localData, setLocalData] = useLocalStorage('num',[1,2,3])
-  console.log(localData);
+  const[isEditing, setIsEditing] = useLocalStorage('isEditing','')
+
   
   return (
     <main>
-     <h1 onClick={()=>setLocalData((pre)=>[...pre,4,5,6])}>Track Your Expense {localData}</h1>
+     <h1>Track Your Expense</h1>
     <div className="expense-tracker">
         <ExpenseForm setExpenses={setExpenses} expense={expense} setExpense={setExpense} isEditing={isEditing} setIsEditing={setIsEditing}/>
         <TableExpense expenses = {expenses} setExpenses={setExpenses} setExpense={setExpense} setIsEditing={setIsEditing}/>
