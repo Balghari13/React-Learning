@@ -3,17 +3,25 @@ import { useRef } from "react";
 import CustomInput from "./CustomInput";
 import { CustomSelect } from "./CustomSelect";
 
-export const ExpenseForm = ({ setExpenses }) => {
+export const ExpenseForm = ({
+  expense,
+  setExpense,
+  setExpenses,
+  isEditing,
+  setIsEditing,
+}) => {
   // const [title, setTitle] = useState('')
   // const [category, setCategory] = useState('')
   // const [amount, setAmount] = useState('')
 
   //making one state; if use useRef() than we don't need this state also
+  /*
+  uplifting expense state to get it in context component
   const [expense, setExpense] = useState({
     title: "",
     category: "",
     amount: "",
-  });
+  });*/
 
   // const titleRef= useRef();
   // const categoryRef= useRef();
@@ -23,31 +31,41 @@ export const ExpenseForm = ({ setExpenses }) => {
 
   const validationConfig = {
     title: [
-      {required:true, message:'Please enter title'},
-      {minLength:5, message:'Title should be 5 characters long'}
+      { required: true, message: "Please enter title" },
+      { minLength: 1, message: "Title should be 5 characters long" },
     ],
-    category:[
-      {required: true, message:"Please select Category"}
+    category: [{ required: true, message: "Please select Category" }],
+    amount: [
+      {
+        required: true,
+        message: "Please enter Amount",
+      },
+      {
+         pattern: /^[1-9]\d*(\.\d+)?$/,
+         message: "Please enter a valid number"
+      }
     ],
-    amount:[
-      {required: true, message:"Please enter Amount"}
-    ]
-  }
+  };
 
   function validate(formData) {
     const errorData = {};
-  Object.entries(formData).forEach(([key,value])=>(validationConfig[key].some(rule=> {
-    if(rule.required && !value){
-      errorData[key] = rule.message
-      return true
-    }
-    if(rule.minLength && value.length<5){
-      errorData[key] = rule.message
-      return true
-    }
-  }))
-  )
-   
+    Object.entries(formData).forEach(([key, value]) =>
+      validationConfig[key].some((rule) => {
+        if (rule.required && !value) {
+          errorData[key] = rule.message;
+          return true;
+        }
+        if (rule.minLength && value.length < rule.minLength) {
+          errorData[key] = rule.message;
+          return true;
+        }
+        if(rule.pattern && !rule.pattern.test(value)){
+          errorData[key] = rule.message;
+          return true
+        }
+      }),
+    );
+
     // if (!formData.title) {
     //   errorData.title = "Title is required";
     // }
@@ -65,7 +83,24 @@ export const ExpenseForm = ({ setExpenses }) => {
     e.preventDefault();
     const validateResult = validate(expense);
     if (Object.keys(validateResult).length) return;
+    if (isEditing) {
+      setExpenses((preState) =>
+        preState.map((preExp) => {
+          if (preExp.id === isEditing) {
+            return { ...expense, id: isEditing };
+          }
+          return preExp;
+        }),
+      );
+      setIsEditing("");
+      setExpense({
+        title: "",
+        category: "",
+        amount: "",
+      });
 
+      return;
+    }
     setExpenses((preState) => [
       ...preState,
       { ...expense, id: crypto.randomUUID() },
@@ -138,7 +173,7 @@ export const ExpenseForm = ({ setExpenses }) => {
         name="category"
         value={expense.category}
         onChange={handleChange}
-        options={["grocery", "clothes", "bills", "education", "medicine"]}
+        options={["Grocery", "Clothes", "Bills", "Education", "Medicine"]}
         defaultOption="Select category"
         errors={errors.category}
       />
@@ -190,7 +225,7 @@ export const ExpenseForm = ({ setExpenses }) => {
             />
             <p className='error'>{errors.amount}</p>
           </div> */}
-      <button className="add-btn">Add</button>
+      <button className="add-btn">{isEditing ? "Save" : "Add"}</button>
     </form>
   );
 };
